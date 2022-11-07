@@ -1,7 +1,9 @@
 <div class="common">
   <p-card class="common-card">
     <ng-template pTemplate="header">
-      <h4 class="common-card-title">Welcome To The Quiz Game</h4>
+      <h4 class="common-card-title">
+        Welcome To The Quiz Game, {{ userDetail?.user?.userName }}
+      </h4>
     </ng-template>
     <div class="common-card-body">
       <div class="grid">
@@ -20,6 +22,14 @@
               class="p-button-button-success mt-5"
               label="Start Game"
               (click)="startGame()"
+            ></button>
+            <button
+              *ngIf="utilService.validToken()"
+              pButton
+              type="button"
+              class="p-button-raised p-button-danger mt-3"
+              label="Logout"
+              (click)="logout()"
             ></button>
           </div>
         </div>

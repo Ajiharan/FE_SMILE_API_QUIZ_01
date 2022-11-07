@@ -10,13 +10,22 @@ import { UtilService } from '../services/util.service';
 })
 export class HomeComponent implements OnInit {
   public highScoreDetails: any;
+  public userDetail: any;
 
   constructor(
     private gameService: GameService,
-    private utilService: UtilService,
+    public utilService: UtilService,
     private router: Router
   ) {
     this.getHighScoreDetail();
+
+    this.getUser();
+  }
+
+  getUser(): void {
+    this.gameService.getUserData((data: any) => {
+      this.userDetail = data;
+    });
   }
 
   getHighScoreDetail(): void {
@@ -33,5 +42,10 @@ export class HomeComponent implements OnInit {
       return;
     }
     this.router.navigateByUrl('game');
+  }
+
+  logout(): void {
+    this.utilService.removeToken();
+    this.router.navigateByUrl('login');
   }
 }

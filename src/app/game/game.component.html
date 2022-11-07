@@ -18,6 +18,9 @@
                 <h5>Lives {{ livesCount }}</h5>
               </div>
               <h5>Score: {{ score }}</h5>
+              <h5>
+                <i>#{{ userDetails?.user?.userName }}</i>
+              </h5>
             </div>
             <div>
               <button
@@ -40,21 +43,29 @@
       </ng-template>
       <div class="grid" *ngIf="livesCount > 0 && !isFinished">
         <div class="col-12 md:col-10 lg:col-10 sm:col-12">
-          <img [src]="queAns?.question" alt="question" class="question-img" />
+          <img
+            [src]="queAns?.question"
+            alt="question"
+            class="question-img"
+            loading="lazy"
+          />
         </div>
         <div class="col-12 md:col-2 lg:col-2 sm:col-12">
           <div class="radio-group-answers">
-            <div class="field-radiobutton" *ngFor="let item of answerArr">
-              <p-radioButton
-                name="answer"
-                [value]="item"
-                [(ngModel)]="selectedValue"
-                [inputId]="'answer' + item"
-                (onClick)="onRadioClick($event)"
-              ></p-radioButton>
-              <label [for]="'answer' + item" class="radio-label"
-                >{{ item }}
-              </label>
+            <div class="grid">
+              <div
+                class="col-12 md:col-6 lg:col-6 sm:col-6"
+                *ngFor="let item of answerArr"
+              >
+                <button
+                  pButton
+                  type="button"
+                  class="p-button-raised p-button-info mt-1"
+                  [label]="item + ''"
+                  [disabled]="btnDisabled"
+                  (click)="onClick(item)"
+                ></button>
+              </div>
             </div>
           </div>
         </div>

@@ -15,12 +15,10 @@ export class GameComponent implements OnInit {
   public levelTimer: number;
 
   public livesCount: number;
-  public lostLifeCount: number;
+
   public score: number;
 
   private interval: any;
-
-  public selectedValue: number | null;
 
   public answerArr: number[];
 
@@ -30,7 +28,9 @@ export class GameComponent implements OnInit {
 
   public highScoreDetail: any;
   public myScoreDetails: any;
-  public activeIndex: number = 0;
+  public activeIndex: number;
+
+  public btnDisabled: boolean = true;
 
   public queAns: {
     question: string;
@@ -68,8 +68,10 @@ export class GameComponent implements OnInit {
       this.currentLevelTimer = this.currentLevelTimer - 5;
     }
     --this.levelQuestionsCount;
+    this.btnDisabled = true;
     this.gameService.getQuestion((data) => {
       this.queAns = data;
+      this.btnDisabled = false;
       this.startTimer();
     });
   }
@@ -80,25 +82,30 @@ export class GameComponent implements OnInit {
     private router: Router
   ) {
     this.initializeGame();
+    this.getUser();
     this.getQuestion();
+  }
+
+  getUser(): void {
+    this.gameService.getUserData((data: any) => {
+      this.userDetails = data;
+    });
   }
 
   initializeGame(): void {
     this.userDetails = null;
     this.levelTimer = this.currentLevelTimer;
     this.livesCount = 3;
-    this.lostLifeCount = 0;
     this.score = 0;
     this.interval = null;
     this.answerArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     this.queAns = null;
     this.level = 1;
     this.levelQuestionsCount = 5;
-    this.selectedValue = null;
+    this.activeIndex = 0;
   }
 
   startTimer(): void {
-    this.selectedValue = null;
     if (this.interval) {
       clearInterval(this.interval);
       this.levelTimer = this.currentLevelTimer;
@@ -114,17 +121,9 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getLifeArray(): any {
-    return new Array(this.livesCount);
-  }
-
-  getLostLifeArray(): any {
-    return new Array(this.lostLifeCount);
-  }
-
   wrongAnswer(): void {
     --this.livesCount;
-    ++this.lostLifeCount;
+
     this.score -= 1;
     if (this.livesCount === 0) {
       clearInterval(this.interval);
@@ -143,8 +142,8 @@ export class GameComponent implements OnInit {
     this.getQuestion();
   }
 
-  onRadioClick(event: any) {
-    if (this.queAns?.solution !== this.selectedValue) {
+  onClick(value: number) {
+    if (this.queAns?.solution !== value) {
       this.wrongAnswer();
       return;
     }
@@ -154,7 +153,7 @@ export class GameComponent implements OnInit {
 
   startGame(): void {
     this.initializeGame();
-
+    this.getUser();
     this.getQuestion();
   }
 
@@ -169,7 +168,7 @@ export class GameComponent implements OnInit {
   }
 
   newGame(): void {
-    this.router.navigateByUrl('dashboard');
+    this.router.navigateByUrl('home');
   }
 
   logout(): void {

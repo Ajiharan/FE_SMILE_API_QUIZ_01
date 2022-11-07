@@ -55,14 +55,16 @@ export class GameService {
   }
 
   getHighScore(func: (data: any) => void, path = 'board/scores'): void {
-    this.http.get(`${this.baseUrl}/${path}`).subscribe({
-      next: (data) => {
-        func(data);
-      },
-      error: (err) => {
-        console.log('err', err.error);
-      },
-    });
+    this.http
+      .get(`${this.baseUrl}/${path}`, this.utilService.getHeaders())
+      .subscribe({
+        next: (data) => {
+          func(data);
+        },
+        error: (err) => {
+          console.log('err', err.error);
+        },
+      });
   }
 
   getQuestion(func?: (data: any) => void): void {
@@ -89,6 +91,20 @@ export class GameService {
         },
         error: (err) => {
           this.toastService.showError(err);
+        },
+      });
+  }
+
+  getUserData(func: (response: any) => void): void {
+    this.http
+      .get(`${this.baseUrl}/user/detail`, this.utilService.getHeaders())
+      .subscribe({
+        next: (data: any) => {
+          // console.log('data', data);
+          func(data);
+        },
+        error: (err) => {
+          this.toastService.showError(err.error);
         },
       });
   }
