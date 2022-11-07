@@ -1,0 +1,35 @@
+@import "../_colors";
+
+.custom-toast {
+  ::ng-deep {
+    .p-toast-message-error {
+      border: none !important;
+    }
+    .p-toast-message .p-toast-message-content {
+      padding: 0;
+    }
+    .p-toast-icon-close {
+      display: none;
+    }
+  }
+  &-container {
+    display: flex;
+    width: 100%;
+
+    &__icon {
+      i {
+        font-size: 2rem;
+        color: $white-color;
+      }
+      padding: 1rem;
+      background: $fail-color;
+    }
+
+    &__message {
+      flex: 1;
+      padding: 1rem;
+      background: $black-color;
+      color: $white-color;
+    }
+  }
+}

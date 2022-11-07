@@ -1,0 +1,10 @@
+.common {
+  ::ng-deep {
+    .p-card-content {
+      padding-top: 0px !important;
+    }
+    .p-card-body {
+      padding: 0.5rem 1.25rem;
+    }
+  }
+}

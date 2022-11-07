@@ -1,0 +1,87 @@
+<div class="common">
+  <div class="common-wrapper">
+    <p-card class="common-card">
+      <ng-template pTemplate="header">
+        <h4 class="common-card-title">SIGN-IN ACCOUNT</h4>
+      </ng-template>
+      <div class="common-card-body">
+        <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <div class="avatar-wrapper mt-2">
+              <p-avatar
+                image="../../assets/images/avatar.png"
+                size="xlarge"
+              ></p-avatar>
+            </div>
+            <div class="p-field">
+              <input
+                id="common-username"
+                class="common-cred"
+                type="username"
+                aria-describedby="username1-help"
+                pInputText
+                placeholder="Username"
+                formControlName="userName"
+              />
+              <p class="text-danger mt-1">
+                {{ utilService.validInput(registerForm.get("userName")) }}
+              </p>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="p-field">
+              <input
+                id="common-password"
+                class="common-cred"
+                type="password"
+                aria-describedby="password-help"
+                pInputText
+                formControlName="password"
+                placeholder="password"
+              />
+              <p class="text-danger mt-1">
+                {{ utilService.validInput(registerForm.get("password")) }}
+              </p>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="p-field">
+              <input
+                id="common-password"
+                class="common-cred"
+                type="password"
+                aria-describedby="password-help"
+                pInputText
+                formControlName="confirmPassword"
+                placeholder="Confirm password"
+              />
+              <p class="text-danger mt-1">
+                {{
+                  utilService.validInput(registerForm.get("confirmPassword"))
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button
+              pButton
+              type="button"
+              label="Create Account"
+              type="submit"
+              [disabled]="registerForm.invalid"
+            ></button>
+          </div>
+          <div class="mb-1 mt-1">
+            <p class="d-flex justify-content-center">
+              If you don't have an account
+            </p>
+
+            <a class="d-flex justify-content-center" routerLink="/login">
+              Sign in Account
+            </a>
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
+</div>
