@@ -25,9 +25,17 @@ import { CommonTableComponent } from './core/common-table/common-table.component
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { GameComponent } from './game/game.component';
+import { StepsModule } from 'primeng/steps';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, CommonTableComponent, LoginComponent, RegisterComponent, GameComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CommonTableComponent,
+    LoginComponent,
+    RegisterComponent,
+    GameComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,6 +56,8 @@ import { GameComponent } from './game/game.component';
     A11yModule,
     RadioButtonModule,
     DialogModule,
+
+    StepsModule,
   ],
   providers: [MessageService, CookieService],
   bootstrap: [AppComponent],

@@ -10,6 +10,7 @@ import { UtilService } from './util.service';
 })
 export class GameService {
   private baseUrl: string = environment.server;
+  private smileAPIUrl: string = 'https://marcconrad.com/uob/smile/api.php';
   constructor(
     private http: HttpClient,
     private toastService: ToastService,
@@ -53,8 +54,8 @@ export class GameService {
     });
   }
 
-  getHighScore(func: (data: any) => void): void {
-    this.http.get(`${this.baseUrl}/board/scores`).subscribe({
+  getHighScore(func: (data: any) => void, path = 'board/scores'): void {
+    this.http.get(`${this.baseUrl}/${path}`).subscribe({
       next: (data) => {
         func(data);
       },
@@ -62,5 +63,33 @@ export class GameService {
         console.log('err', err.error);
       },
     });
+  }
+
+  getQuestion(func?: (data: any) => void): void {
+    this.http.get(this.smileAPIUrl).subscribe({
+      next: (data) => {
+        func?.(data);
+      },
+      error: (err) => {
+        this.toastService.showError('cannot fetch question from smile api');
+      },
+    });
+  }
+
+  addScore(data: any, func?: (data?: any) => void) {
+    this.http
+      .post(
+        `${this.baseUrl}/score/addScore`,
+        data,
+        this.utilService.getHeaders()
+      )
+      .subscribe({
+        next: (data) => {
+          func?.(data);
+        },
+        error: (err) => {
+          this.toastService.showError(err);
+        },
+      });
   }
 }

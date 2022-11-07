@@ -1,1 +1,118 @@
-<p>game works!</p>
+<div class="common">
+  <div class="game-card-wrapper">
+    <p-card class="common-card title-card">
+      <h5>#Level</h5>
+      <p-steps
+        [model]="items"
+        [readonly]="true"
+        [activeIndex]="activeIndex"
+      ></p-steps>
+    </p-card>
+    <p-card class="common-card game-card">
+      <ng-template pTemplate="header">
+        <div class="dashboard-header">
+          <div class="dashboard-header-title">
+            <div class="header-titles">
+              <h5>Time Remain {{ levelTimer }}s</h5>
+              <div class="game-life">
+                <h5>Lives {{ livesCount }}</h5>
+              </div>
+              <h5>Score: {{ score }}</h5>
+            </div>
+            <div>
+              <button
+                pButton
+                type="button"
+                class="p-button-raised p-button-success"
+                label="New Game"
+                (click)="newGame()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                class="p-button-raised p-button-danger"
+                label="Logout"
+                (click)="logout()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <div class="grid" *ngIf="livesCount > 0 && !isFinished">
+        <div class="col-12 md:col-10 lg:col-10 sm:col-12">
+          <img [src]="queAns?.question" alt="question" class="question-img" />
+        </div>
+        <div class="col-12 md:col-2 lg:col-2 sm:col-12">
+          <div class="radio-group-answers">
+            <div class="field-radiobutton" *ngFor="let item of answerArr">
+              <p-radioButton
+                name="answer"
+                [value]="item"
+                [(ngModel)]="selectedValue"
+                [inputId]="'answer' + item"
+                (onClick)="onRadioClick($event)"
+              ></p-radioButton>
+              <label [for]="'answer' + item" class="radio-label"
+                >{{ item }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="livesCount === 0 && !isFinished">
+        <div class="grid">
+          <div class="game-over">
+            <h4 class="text-danger text-center" style="width: 100%">
+              GAME OVER
+            </h4>
+            <button
+              pButton
+              type="button"
+              class="p-button-button-success mt-3"
+              label="Play Again"
+              (click)="startGame()"
+            ></button>
+          </div>
+        </div>
+        <div class="grid mt-3">
+          <div class="col-12 md:col-6 lg:col-6 sm:col-12">
+            <h5>#High Score</h5>
+            <app-common-table [data]="highScoreDetail" name="highScore">
+            </app-common-table>
+          </div>
+          <div class="col-12 md:col-6 lg:col-6 sm:col-12">
+            <h5>#My Score</h5>
+            <app-common-table [data]="myScoreDetails" name="score">
+            </app-common-table>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isFinished">
+        <div class="grid mt-3">
+          <div class="game-over">
+            <h4 class="text-success text-center" style="width: 100%">
+              COMPLETED
+            </h4>
+            <button
+              pButton
+              type="button"
+              class="p-button-button-success mt-3"
+              label="Play Again"
+              (click)="startGame()"
+            ></button>
+          </div>
+        </div>
+        <div class="grid mt-3">
+          <div class="col-12 md:col-6 lg:col-6 sm:col-12">
+            <app-common-table [data]="highScoreDetail" name="highScore">
+            </app-common-table>
+          </div>
+          <div class="col-12 md:col-6 lg:col-6 sm:col-12">
+            <app-common-table [data]="myScoreDetails" name="score">
+            </app-common-table>
+          </div>
+        </div>
+      </ng-container>
+    </p-card>
+  </div>
+</div>

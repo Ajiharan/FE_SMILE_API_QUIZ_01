@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
@@ -7,7 +8,14 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UtilService {
   public cookieToken: string = 'token';
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService) { }
+
+
+  getHeaders(): any {
+    let headers = new HttpHeaders();
+    headers = headers.append('quiz', this.getToken());
+    return { headers };
+  }
 
   validToken(): boolean {
     return Boolean(this.cookieService.get(this.cookieToken));
